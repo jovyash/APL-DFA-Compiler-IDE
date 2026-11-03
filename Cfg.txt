@@ -1,0 +1,48 @@
+Author: Joievelle Leslie 
+CFG in Bnf form
+
+
+<Program>          ::= <Identifier> "=" <DFA_Body>
+
+<DFA_Body>         ::= <Format1_Multiline> | <Format2_Inline>
+
+
+;; FORMAT 1: MULTILINE DEFINITION & TABLE
+
+<Format1_Multiline> ::= <Tuple_Def> <Q_Def> <Sigma_Def> <Delta_Def> <Start_Def> <Final_Def> <Transition_Table>
+
+<Tuple_Def>         ::= "(" "Q" "," "Σ" "," "δ" "," "q₀" "," "F" ")"
+<Q_Def>             ::= "Q" "=" "{" <State_List> "}"
+<Sigma_Def>         ::= "Σ" "=" "{" <Alphabet_List> "}"
+<Delta_Def>         ::= "δ" "=" "Q" "×" "Σ" "→" "Q"
+<Start_Def>         ::= "q₀" "=" <State>
+<Final_Def>         ::= "F" "=" "{" <State_List> "}"
+
+<Transition_Table>  ::= "δ" <Header_Symbols> <Table_Rows>
+<Header_Symbols>    ::= <Alphabet_Symbol> | <Alphabet_Symbol> <Header_Symbols>
+<Table_Rows>        ::= <Table_Row> | <Table_Row> <Table_Rows>
+<Table_Row>         ::= <State> <State_Row_Transitions>
+<State_Row_Transitions> ::= <State> | <State> <State_Row_Transitions>
+
+
+;; FORMAT 2: INLINE SINGLE LINE DEFINITION
+
+<Format2_Inline>    ::= "(" "{" <State_List> "}" "," "{" <Alphabet_List> "}" "," "δ" "," <State> "," "{" <State_List> "}" ")" <Inline_Transitions>
+
+<Inline_Transitions> ::= <Inline_Transition> | <Inline_Transition> <Inline_Transitions>
+<Inline_Transition>  ::= "δ" "(" <State> "," <Alphabet_Symbol> ")" "=" <State>
+
+
+;; SHARED LOW-LEVEL TOKENS / TERMINALS
+
+<State_List>        ::= <State> | <State> "," <State_List>
+<Alphabet_List>     ::= <Alphabet_Symbol> | <Alphabet_Symbol> "," <Alphabet_List>
+
+<State>             ::= <Identifier>
+<Alphabet_Symbol>   ::= <Identifier> | <Character>
+<Identifier>        ::= <Letter> <Alphanumeric>
+<Alphanumeric>      ::= "" | <Letter> <Alphanumeric> | <Digit> <Alphanumeric>
+
+<Letter>            ::= "a" | "b" | ... | "z" | "A" | ... | "Z"
+<Digit>             ::= "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+<Character>         ::= "a" | "b" | "c" | ...
